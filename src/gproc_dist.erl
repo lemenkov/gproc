@@ -367,14 +367,14 @@ handle_leader_call(_, _, S, _E) ->
 
 handle_leader_cast({sync_reply, Node, Ref}, S, _E) ->
     #state{sync_requests = SReqs} = S,
-    case lists:keyfind(Ref, 1, SReqs) of
+    case lists:keysearch(Ref, 1, SReqs) of
         false ->
             %% This should never happen, except perhaps if the leader who
             %% received the sync request died, and the new leader gets the
             %% sync reply. In that case, we trust that the client has been
 	    %% notified anyway, and ignore the message.
             {ok, S};
-        {_, Ns} ->
+        {value, {_, Ns}} ->
             case lists:delete(Node, Ns) of
                 [] ->
                     gen_leader:reply(Ref, {leader, reply, true}),

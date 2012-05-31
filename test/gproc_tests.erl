@@ -50,8 +50,8 @@ t_ets_opts() ->
     erlang:trace(new, false, [call]),
     receive
 	{trace,_,call,{ets,new,[gproc,Opts]}} ->
-	    ?assertMatch({write_concurrency, false},
-			 lists:keyfind(write_concurrency,1,Opts))
+	    ?assertMatch({value, {write_concurrency, false}},
+			 lists:keysearch(write_concurrency,1,Opts))
     after 3000 ->
 	    error(timeout)
     end.
