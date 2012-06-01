@@ -53,7 +53,7 @@ t_ets_opts() ->
 	    ?assertMatch({value, {write_concurrency, false}},
 			 lists:keysearch(write_concurrency,1,Opts))
     after 3000 ->
-	    error(timeout)
+	    erlang:error(timeout)
     end.
 
 
