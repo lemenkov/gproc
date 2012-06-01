@@ -42,7 +42,7 @@
 %% Pid around as payload as well. This is a bit redundant, but
 %% symmetric.
 %%
--spec insert_reg(key(), any(), pid(), scope()) -> boolean().
+-spec insert_reg(key(), any(), pid(), scope()) -> bool().
 
 insert_reg({T,_,Name} = K, Value, Pid, Scope) when T==a; T==n ->
     MaybeScan = fun() ->
@@ -168,7 +168,7 @@ maybe_waiters(K, Pid, Value, T, Info) ->
     end.
 
 
--spec notify_waiters([{pid(), reference()}], key(), pid(), any()) -> ok.
+-spec notify_waiters([{pid(), term()}], key(), pid(), any()) -> ok.
 
 notify_waiters(Waiters, K, Pid, V) ->
     _ = [begin
