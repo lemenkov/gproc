@@ -30,15 +30,7 @@ conf_test_() ->
      fun(_) ->
 	     application:stop(gproc)
      end,
-     [?_test(t_server_opts()),
-      ?_test(t_ets_opts())]}.
-
-t_server_opts() ->
-    H = 10000,
-    application:set_env(gproc, server_options, [{min_heap_size, H}]),
-    ?assert(ok == application:start(gproc)),
-    {min_heap_size, H1} = process_info(whereis(gproc), min_heap_size),
-    ?assert(is_integer(H1) andalso H1 > H).
+     [?_test(t_ets_opts())]}.
 
 t_ets_opts() ->
     %% Cannot inspect the write_concurrency attribute on an ets table in
