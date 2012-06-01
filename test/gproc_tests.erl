@@ -43,14 +43,14 @@ t_server_opts() ->
 t_ets_opts() ->
     %% Cannot inspect the write_concurrency attribute on an ets table in
     %% any easy way, so trace on the ets:new/2 call and check the arguments.
-    application:set_env(gproc, ets_options, [{write_concurrency, false}]),
+    application:set_env(gproc, ets_options, []),
     erlang:trace_pattern({ets,new, 2}, [{[gproc,'_'],[],[]}], [global]),
     erlang:trace(new, true, [call]),
     ?assert(ok == application:start(gproc)),
     erlang:trace(new, false, [call]),
     receive
 	{trace,_,call,{ets,new,[gproc,Opts]}} ->
-	    ?assertMatch({value, {write_concurrency, false}},
+	    ?assertMatch(false,
 			 lists:keysearch(write_concurrency,1,Opts))
     after 3000 ->
 	    erlang:error(timeout)
